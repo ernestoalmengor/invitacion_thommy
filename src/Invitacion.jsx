@@ -27,7 +27,7 @@ const Invitacion = () => {
       if (isMuted) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch(e => console.log("Audio error:", e));
+        audioRef.current.play().catch((e) => console.log("Audio error:", e));
       }
     }
   }, [isMuted]);
@@ -244,62 +244,118 @@ const Invitacion = () => {
                 alt="Thomas"
                 className="mx-auto my-[-10px] md:my-7 w-[350px] max-w-full md:w-[420px] object-contain drop-shadow-2xl"
               />
-              <p className="text-2xl md:text-4xl font-black text-white">
-                Mis padres{" "}
-                <span className=" text-2xl md:text-4xl font-bold text-green-400">
-                  William, Joselyn
-                </span>{" "}
-                y yo te invitamos a celebrar mi{" "}
-                <span className="text-3xl md:text-4xl font-black text-green-400">
-                  1er
-                </span>{" "}
-                añito.
-              </p>
-
-              <div className="relative flex items-center justify-center h-[175px] md:h-[350px] mt-4">
+              <div className="relative flex items-center justify-center h-[190px] md:h-[350px] mt-12">
                 <motion.img
                   src="./mario.webp"
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.5 }}
-                  className={`absolute ${marioPositionClass} ${marioSizeClass} object-contain z-0`}
+                  className={`${marioSizeClass} object-contain z-0 translate-y-8 md:translate-y-16`}
                 />
-                <div className="flex flex-col items-center justify-center gap-1 scale-90 md:scale-110 z-10 relative ml-32 md:ml-52">
-                  <img
-                    src="./fecha.webp"
-                    alt="Fecha del evento"
-                    className="w-[350px] md:w-[420px] max-w-full object-contain drop-shadow-[0_10px_8px_rgba(0,0,0,0.8)]"
-                  />
-                  <span className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider [2px_-2px_0_#0000ff,_2px_-2px_0_#0000ff,_-2px_2px_0_#0000ff] drop-shadow-[0_10px_8px_rgba(0,0,0,0.8)]">
-                    03:00 PM
-                  </span>
+              </div>
+
+              <div className="flex flex-col items-center mt-12 md:mt-12 z-10 relative">
+                <p className="text-2xl md:text-4xl font-black text-white text-center z-10">
+                  Mis padres
+                </p>
+                <img
+                  src="./parents.webp"
+                  alt="William y Joselyn"
+                  className="w-[300px] md:w-[350px] object-contain -mt-1 -mb-1 z-0 drop-shadow-xl relative"
+                />
+                <div className="flex flex-col items-center mt-0 gap-2 z-10 relative">
+                  <p className="text-2xl md:text-4xl font-black text-white text-center">
+                    te invitan a celebrar mi
+                  </p>
+                  <div className="flex items-center justify-center gap-2 md:gap-3 -mt-2">
+                    <img
+                      src="./a.webp"
+                      alt="1er"
+                      className="w-[70px] md:w-[120px] object-contain drop-shadow-xl"
+                    />
+                    <p className="text-3xl md:text-5xl font-black text-white">
+                      añito.
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>
+          </section>
 
-            {/* CONTADOR */}
-            <div className="w-full mt-6 flex flex-col items-center relative z-10">
-              <h3 className="text-xl md:text-2xl font-black text-white mb-4 tracking-wide">
-                ¿Cuánto falta?
-              </h3>
-              <div className="flex justify-center gap-2 w-full overflow-visible">
-                {Object.entries(timeLeft).map(([label, value], index) => (
-                  <motion.div
-                    key={label}
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 3 + index, repeat: Infinity }}
-                    className={`relative flex flex-col items-center justify-center w-[75px] h-[75px] md:w-36 md:h-36 rounded-full shadow-lg ${index % 4 === 0 ? "bg-green-400 text-white" : index % 3 === 0 ? "bg-red-400 text-white" : index % 2 === 0 ? "bg-yellow-400 text-white" : "bg-blue-400 text-white"} border-2 border-white`}
-                  >
-                    <span className="text-2xl md:text-5xl font-black leading-none">
-                      {String(value ?? 0).padStart(2, "0")}
-                    </span>
-                    <span className="text-[8px] md:text-xs font-black uppercase mt-1">
-                      {label}
-                    </span>
-                  </motion.div>
-                ))}
+          {/* SECCIÓN 3: UBICACIÓN */}
+          <section className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.3 }}
+              variants={sectionVariants}
+              className="max-w-4xl w-full text-center relative z-10"
+            >
+              <div className="flex items-center justify-center gap-3 mb-10">
+                <PartyPopper
+                  size={38}
+                  className="text-blue-500 animate-bounce"
+                />
+                <h2 className="text-2xl md:text-5xl font-black">
+                  ¿Dónde es la fiesta?
+                </h2>
               </div>
-            </div>
+              <div className="grid md:grid-cols-2 gap-6 items-stretch">
+                <div className="bg-white/70 backdrop-blur-md p-6 md:p-8 rounded-[35px] border-2 border-blue-200 shadow-xl flex flex-col items-center justify-center">
+                  <h4 className="font-bold text-xl mb-3 text-blue-600 uppercase text-center">
+                    Fecha y Hora
+                  </h4>
+                  <p className="text-2xl md:text-3xl font-black text-slate-800 text-center">
+                    16 de Agosto, 2026
+                  </p>
+                  <p className="text-xl md:text-2xl font-bold text-slate-600 mt-1 text-center">
+                    3:00 PM
+                  </p>
+
+                  {/* CONTADOR EN LA CARD */}
+                  <div className="w-full mt-6 flex flex-col items-center relative z-10">
+                    <h5 className="text-lg md:text-xl font-black text-slate-700 mb-4 tracking-wide">
+                      ¿Cuánto falta?
+                    </h5>
+                    <div className="flex justify-center gap-1 md:gap-2 w-full overflow-visible">
+                      {Object.entries(timeLeft).map(([label, value], index) => (
+                        <div
+                          key={label}
+                          className={`relative flex flex-col items-center justify-center w-[60px] h-[60px] md:w-[75px] md:h-[75px] rounded-full shadow-lg ${index % 4 === 0 ? "bg-green-400 text-white" : index % 3 === 0 ? "bg-red-400 text-white" : index % 2 === 0 ? "bg-yellow-400 text-white" : "bg-blue-400 text-white"} border-2 border-white`}
+                        >
+                          <span className="text-xl md:text-2xl font-black leading-none">
+                            {String(value ?? 0).padStart(2, "0")}
+                          </span>
+                          <span className="text-[8px] md:text-[10px] font-black uppercase mt-1">
+                            {label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/70 backdrop-blur-md p-6 md:p-8 rounded-[35px] border-2 border-blue-200 shadow-xl flex flex-col items-center justify-center">
+                  <h4 className="font-bold text-xl mb-3 text-blue-600 uppercase text-center">
+                    Lugar y Dirección
+                  </h4>
+                  <p className="text-2xl md:text-3xl font-black text-slate-800 text-center">
+                    Salón Jardín Las Luces
+                  </p>
+                  <p className="text-lg md:text-xl text-slate-600 italic text-center mt-2">
+                    Calle de los Pasos #12, Antigua Guatemala
+                  </p>
+                  <a
+                    href="https://waze.com/ul?q=Jardin%20Las%20Luces%20Antigua"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl shadow-md active:scale-95 transition-all"
+                  >
+                    <MapPin size={18} className="inline mr-2" /> VER UBICACIÓN
+                  </a>
+                </div>
+              </div>
+            </motion.div>
           </section>
 
           {/* SECCIÓN 2: CALENDARIO Y ASISTENCIA */}
@@ -362,54 +418,6 @@ const Invitacion = () => {
                       Confirmar asistencia
                     </button>
                   )}
-                </div>
-              </div>
-            </motion.div>
-          </section>
-
-          {/* SECCIÓN 3: UBICACIÓN */}
-          <section className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: false, amount: 0.3 }}
-              variants={sectionVariants}
-              className="max-w-4xl w-full text-center relative z-10"
-            >
-              <div className="flex items-center justify-center gap-3 mb-10">
-                <PartyPopper
-                  size={38}
-                  className="text-blue-500 animate-bounce"
-                />
-                <h2 className="text-2xl md:text-5xl font-black">
-                  ¿Dónde es la fiesta?
-                </h2>
-              </div>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-white/70 backdrop-blur-md p-8 rounded-[35px] border-2 border-blue-200 shadow-xl">
-                  <h4 className="font-bold text-xl mb-3 text-blue-600 uppercase">
-                    Hora y Lugar
-                  </h4>
-                  <p className="text-3xl font-black">3:00 PM</p>
-                  <p className="text-slate-600 mt-2">
-                    Salón Jardín Las Luces, Antigua Guatemala
-                  </p>
-                </div>
-                <div className="bg-white/70 backdrop-blur-md p-8 rounded-[35px] border-2 border-blue-200 shadow-xl flex flex-col items-center">
-                  <h4 className="font-bold text-xl mb-3 text-blue-600 uppercase">
-                    Dirección
-                  </h4>
-                  <p className="text-xl font-black italic">
-                    Calle de los Pasos #12
-                  </p>
-                  <a
-                    href="https://waze.com/ul?q=Jardin%20Las%20Luces%20Antigua"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl shadow-md active:scale-95 transition-all"
-                  >
-                    <MapPin size={18} className="inline mr-2" /> VER UBICACIÓN
-                  </a>
                 </div>
               </div>
             </motion.div>
