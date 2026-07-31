@@ -47,7 +47,15 @@ const Invitacion = () => {
 
   // Cambia aqui la fecha y hora del contador: "AAAA-MM-DDTHH:mm:ss"
   const fechaEvento = new Date("2026-08-16T15:00:00");
-  const fotos = ["./1.jpg", "./2.jpeg", "./3.jpeg", "./4.jpeg", "./5.jpeg", "./6.jpeg", "./7.jpeg"];
+  const fotos = [
+    "./1.jpg",
+    "./2.jpeg",
+    "./3.jpeg",
+    "./4.jpeg",
+    "./5.jpeg",
+    "./6.jpeg",
+    "./7.jpeg",
+  ];
   const marioSizeClass = "w-[130px] md:w-[180px]";
   const marioPositionClass = "left-[15px] md:left-[35px]";
   const marioluiguiSizeClass = "w-[180px] md:w-[180px]";
@@ -289,7 +297,16 @@ const Invitacion = () => {
           </section>
 
           {/* SECCIÓN 3: UBICACIÓN */}
-          <section className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
+          <section
+            className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden"
+            style={{
+              backgroundImage: "url('./fondo2.webp')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundAttachment: "fixed",
+            }}
+          >
+            <div className="absolute inset-0 bg-blue-100/40 backdrop-blur-sm" />
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -497,9 +514,9 @@ const Invitacion = () => {
 
           {/* FOOTER */}
           <footer className="py-6 text-center text-slate-400 text-base">
-            <p className="text-[12px]">© 2026 Todos los derechos reservados</p>
+            <p className="text-[12px]">© Todos los derechos reservados</p>
             <p className="text-[12px]">
-              Desarrollado con por{" "}
+              Desarrollado por{" "}
               <span className="font-bold text-green-500">Kevin Almengor</span>
             </p>
           </footer>
