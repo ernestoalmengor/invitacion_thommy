@@ -20,15 +20,32 @@ const Admin = () => {
     "https://script.google.com/macros/s/AKfycbyrgSPSWgRw5ESsb9GnHwK-oa4_90Oqeh6PUv2mnprFeLH8iXaGxk9yFV99MExy42Eyvg/exec";
 
   useEffect(() => {
-    const fetchInvitados = async () => {
+    // 1. Cargar cache inicial para mostrar datos al instante
+    const cachedData = localStorage.getItem("adminInvitadosCache");
+    if (cachedData) {
       try {
+        setInvitados(JSON.parse(cachedData));
+        setLoading(false);
+      } catch (e) {
+        console.error("Error al leer cache:", e);
+      }
+    }
+
+    const fetchInvitados = async (isSilentUpdate = false) => {
+      try {
+        if (!isSilentUpdate && !cachedData) {
+          setLoading(true);
+        }
         const response = await fetch(`${urlAppScript}?action=getGuests`);
         if (!response.ok) {
           throw new Error("Error en la petición");
         }
         const data = await response.json();
         if (Array.isArray(data)) {
+          // Si los datos nuevos son diferentes o es la primera vez, actualizamos
           setInvitados(data);
+          localStorage.setItem("adminInvitadosCache", JSON.stringify(data));
+          setError(null);
         } else if (data && data.error) {
           throw new Error(data.error);
         } else {
@@ -37,16 +54,26 @@ const Admin = () => {
           );
         }
       } catch (err) {
-        setError(
-          `Error al cargar: ${err.message}. Asegúrate de haber actualizado e implementado el código en Google Apps Script.`,
-        );
+        if (!cachedData) {
+          setError(
+            `Error al cargar: ${err.message}. Asegúrate de haber actualizado e implementado el código en Google Apps Script.`,
+          );
+        }
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
+    // Llamada inmediata al montar el componente
     fetchInvitados();
+
+    // Actualización automática (polling) cada 15 segundos de forma silenciosa
+    const intervalId = setInterval(() => {
+      fetchInvitados(true);
+    }, 15000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleCopyLink = (invitado) => {

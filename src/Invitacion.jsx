@@ -10,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   PartyPopper,
+  Bell,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useSearchParams } from "react-router-dom";
@@ -167,6 +168,10 @@ const Invitacion = () => {
     }
     setEnviando(false);
   };
+  const sinPasesAsignados =
+    invitadoData &&
+    (parseInt(invitadoData.adultos_max) || 0) === 0 &&
+    (parseInt(invitadoData.ninos_max) || 0) === 0;
 
   return (
     <div className="min-h-screen text-slate-800 antialiased overflow-x-hidden">
@@ -363,7 +368,7 @@ const Invitacion = () => {
                     Lugar de la fiesta
                   </h4>
                   <p className="text-2xl md:text-3xl font-black text-slate-800 text-center">
-                    Finca la Azotea, Jocotenango
+                    Finca La Azotea, Restautante El Azote, Jocotenango
                   </p>
                   <p className="text-lg md:text-xl text-slate-600 italic text-center mt-2">
                     Presentar invitación
@@ -419,17 +424,24 @@ const Invitacion = () => {
                     {invitadoData ? invitadoData.nombre : "Cargando..."}
                   </p>
                   <p className="text-sm md:text-lg mb-6 leading-relaxed">
-                    He reservado{" "}
-                    <span className="text-xl md:text-2xl font-black text-green-600">
-                      {invitadoData
-                        ? invitadoData.ninos_max && invitadoData.ninos_max > 0
-                          ? `${invitadoData.adultos_max} pases para adulto y ${invitadoData.ninos_max} para niño`
-                          : `${invitadoData.adultos_max} pases para adulto`
-                        : "..."}
-                    </span>{" "}
-                    para ti. Por favor, confirma tu asistencia.
+                    {sinPasesAsignados ? (
+                      "He reservado espacios para ti, por favor no faltes."
+                    ) : (
+                      <>
+                        He reservado{" "}
+                        <span className="text-xl md:text-2xl font-black text-green-600">
+                          {invitadoData
+                            ? invitadoData.ninos_max &&
+                              invitadoData.ninos_max > 0
+                              ? `${invitadoData.adultos_max} pases para adulto y ${invitadoData.ninos_max} para niño`
+                              : `${invitadoData.adultos_max} pases para adulto`
+                            : "..."}
+                        </span>{" "}
+                        para ti. Por favor, confirma tu asistencia.
+                      </>
+                    )}
                   </p>
-                  {comprobandoStatus ? (
+                  {sinPasesAsignados ? null : comprobandoStatus ? (
                     <div className="w-full text-center py-4 text-slate-500 italic font-medium">
                       Verificando estado...
                     </div>
@@ -452,7 +464,7 @@ const Invitacion = () => {
 
           {/* SECCIÓN 4: GALERÍA */}
           <section
-            className="px-6 min-h-screen flex flex-col justify-center pt-10 pb-4 px-4 relative overflow-hidden"
+            className="px-6 min-h-[80vh] flex flex-col justify-center pt-10 pb-4 relative overflow-hidden"
             style={{
               backgroundImage: "url('./fondo1.webp')",
               backgroundSize: "cover",
@@ -461,7 +473,7 @@ const Invitacion = () => {
             }}
           >
             <div className="absolute inset-0 bg-black/20 z-0" />
-            <h2 className="text-4xl md:text-6xl font-black text-white mb-2 text-center z-20">
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-5 text-center z-20">
               Mira cuanto he crecido
             </h2>
             <div className="max-w-md mx-auto relative w-full">
@@ -497,18 +509,42 @@ const Invitacion = () => {
                 <ChevronRight size={28} />
               </button>
             </div>
-            <div className="relative flex items-center justify-center z-20  mt-4">
+            <div className="relative flex items-center justify-center z-20 mt-6 mb-2 w-full max-w-md mx-auto">
               <motion.img
                 src="./marioluigui.webp"
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className={`absolute ${marioluiguiPositionClass} ${marioluiguiSizeClass} object-contain z-0`}
+                className={`absolute ${marioluiguiPositionClass} ${marioluiguiSizeClass} object-contain z-20`}
               />
-              <p className="text-white mt-4 text-center text-1xl md:text-5xl font-black">
-                Eres importante para nuestra familia y queremos compartir
-                contigo este momento. No olvides confiar asistencia.
-              </p>
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                className="bg-white/90 backdrop-blur-md p-5 rounded-3xl shadow-xl border-2 border-white/50 relative z-10 w-full flex flex-col sm:flex-row items-center gap-4 mt-1 text-center sm:text-left"
+              >
+                <div className="w-full">
+                  <p className="text-slate-800 text-base md:text-xl font-black leading-tight">
+                    Eres importante para nuestra familia y queremos compartir
+                    contigo este momento.
+                  </p>
+                  {sinPasesAsignados ? (
+                    <p className="text-slate-600 mt-2 font-medium text-sm md:text-base">
+                      <span className="text-green-600 font-bold">
+                        ¡No olvides confirmar tu asistencia!
+                      </span>
+                    </p>
+                  ) : (
+                    <p className="text-slate-600 mt-2 font-medium text-sm md:text-base">
+                      Por favor, no olvides{" "}
+                      <span className="text-green-600 font-bold">
+                        confirmar tu asistencia
+                      </span>
+                      .
+                    </p>
+                  )}
+                </div>
+              </motion.div>
             </div>
           </section>
 
